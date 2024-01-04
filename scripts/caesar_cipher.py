@@ -36,12 +36,11 @@ class CaesarCipher:
     
     def _validate_state(self) -> None:
         if self.sequence_length != len(set(self.sequence)):
-            raise ValueError(f'Sequence must be unique set of characters, not {self.sequence}')
+            raise ValueError(f'Sequence must be unique set of characters, sequence: {self.sequence}')
         if self.key not in self.sequence or len(self.key) > 1:
-            raise ValueError(f'Key must be character from sequence: {self.sequence}, not {self.key}...')
-        for character in set(self.text):
-            if character not in self.sequence:
-                raise ValueError(f'Text must only contain characters from: {self.sequence}, not {character}...')
+            raise ValueError(f'Key must be character from: {self.sequence}, key: {self.key}...')
+        if set(self.text) - set(self.sequence):
+            raise ValueError(f'Text must only contain characters from: {self.sequence}, text: {self.text}...')
 
     def _shift_text(self, shift: int, text: str) -> str:
         shifted_text = []
